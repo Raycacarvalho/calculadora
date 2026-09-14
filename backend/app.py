@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
+
 @app.route("/calcular", methods=["POST"])
 def calcular():
     dados = request.get_json()
@@ -29,6 +30,8 @@ def calcular():
         if num2 == 0:
             return jsonify({"erro": "Não é possível dividir por zero."}), 400
         resultado = num1 / num2
+    elif operacao == "^":
+        resultado = num1 ** num2
     else:
         return jsonify({"erro": "Operação inválida."}), 400
 
