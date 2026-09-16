@@ -47,6 +47,12 @@ function separarExpressao(expressao) {
 }
 
 function calcular() {
+    // Um resultado já exibido não é uma conta nova: calcular de novo sobre ele
+    // apagaria o valor que está na tela.
+    if (resultadoNaTela) {
+        return;
+    }
+
     const partes = separarExpressao(tela.value);
 
     if (!partes || partes.num1 === "" || partes.num2 === "") {
@@ -69,6 +75,11 @@ function calcular() {
         mostrar("Erro no servidor");
     });
 }
+
+// Sem isso o botão clicado continua com foco e o Enter seguinte o aciona de novo.
+document.querySelectorAll("button").forEach(botao => {
+    botao.addEventListener("click", () => botao.blur());
+});
 
 document.addEventListener("keydown", evento => {
     const tecla = evento.key;
