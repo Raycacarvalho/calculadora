@@ -102,10 +102,22 @@ Todos retornam status `400` com uma mensagem de erro.
 - `main` → produção (o merge da `dev` na `main` representa o deploy)
 
 ## Estrutura de nuvem recomendada
-_Em construção_
+- **Tipo de nuvem:** pública
+- **Modelo de serviço:** PaaS (Platform as a Service)
+
+**Justificativa:** a nuvem pública facilita o acesso aos recursos necessários para o funcionamento do sistema sem exigir a criação e manutenção de infraestrutura própria, além de permitir ampliar os recursos conforme a necessidade do projeto. O modelo PaaS foi escolhido por oferecer um ambiente pronto para desenvolver, executar e hospedar a aplicação, permitindo que a equipe se concentre no desenvolvimento do sistema sem se preocupar com a configuração e manutenção de servidores. Detalhes em [`docs/nuvem.md`](docs/nuvem.md).
 
 ## Ciclo DevOps aplicado
-_Em construção_
+- **Plan:** planejamento das funcionalidades da calculadora e divisão de atividades entre os integrantes.
+- **Code:** desenvolvimento do frontend (HTML/CSS/JS) e backend (Python/Flask), organizados em arquivos e pastas dedicados.
+- **Build:** integração entre frontend e backend, com dependências registradas em `backend/requirements.txt`.
+- **Test:** testes das operações da calculadora e da comunicação entre frontend e backend.
+- **Release:** commits e branches (`feature/*` → `dev` → `main`) usados para organizar e registrar o desenvolvimento das funcionalidades.
+- **Deploy:** código armazenado no GitHub, disponibilizando a versão desenvolvida para a equipe.
+- **Operate:** a equipe segue realizando alterações, correções e melhorias com o mesmo fluxo de branches e commits.
+- **Monitor:** o histórico de commits e branches no GitHub permite acompanhar a evolução do projeto.
+
+Detalhes em [`docs/devops.md`](docs/devops.md).
 
 ## Equipe
 | Integrante | Papel |
