@@ -77,8 +77,6 @@ button {
 .vermelho {
     background: #9e2f37;
     color: rgb(253, 252, 252);
-
-    grid-column: span 2;
 }
 
 .apagar{

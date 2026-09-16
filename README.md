@@ -80,13 +80,22 @@ Resposta esperada:
 - Respostas de erro retornam `400` com `{ "erro": "mensagem" }`.
 
 ### Operações suportadas
-| Operação | Símbolo |
+| Operação | Símbolo | Botão |
+|---|---|---|
+| Soma | `+` | `+` |
+| Subtração | `-` | `−` |
+| Multiplicação | `*` | `×` |
+| Divisão | `/` | `/` |
+| Potência | `^` | `xʸ` |
+
+### Atalhos de teclado
+| Tecla | Ação |
 |---|---|
-| Soma | `+` |
-| Subtração | `-` |
-| Multiplicação | `*` |
-| Divisão | `/` |
-| Potência | `^` |
+| `0`-`9`, `.` | Digita número |
+| `+` `-` `*` `/` `^` | Operação |
+| `Enter` ou `=` | Calcula |
+| `Backspace` | Apaga um caractere |
+| `Esc` | Limpa a tela |
 
 ### Erros tratados
 - Campos ausentes (`num1`, `num2` ou `operacao`)

@@ -1,55 +1,86 @@
-let tela = document.getElementById("tela");
+const tela = document.getElementById("tela");
 
-let primeiroNumero = "";
-let operacao = "";
+const OPERADORES = ["+", "-", "*", "/", "^"];
+
+let resultadoNaTela = false;
 
 function adicionar(valor) {
+    if (resultadoNaTela) {
+        // Continua a conta se o usuário digitar um operador; recomeça se digitar um número.
+        tela.value = OPERADORES.includes(valor) ? tela.value : "";
+        resultadoNaTela = false;
+    }
     tela.value += valor;
 }
 
 function limpar() {
     tela.value = "";
-    primeiroNumero = "";
-    operacao = "";
+    resultadoNaTela = false;
 }
 
 function apagar() {
+    if (resultadoNaTela) {
+        limpar();
+        return;
+    }
     tela.value = tela.value.slice(0, -1);
 }
 
+function mostrar(texto) {
+    tela.value = texto;
+    resultadoNaTela = true;
+}
+
+function separarExpressao(expressao) {
+    // Procura o operador a partir do segundo caractere, para que o sinal de
+    // um número negativo inicial não seja confundido com uma operação.
+    for (let i = 1; i < expressao.length; i++) {
+        if (OPERADORES.includes(expressao[i])) {
+            return {
+                num1: expressao.slice(0, i),
+                operacao: expressao[i],
+                num2: expressao.slice(i + 1)
+            };
+        }
+    }
+    return null;
+}
+
 function calcular() {
-    let expressao = tela.value;
+    const partes = separarExpressao(tela.value);
 
-    let partes = expressao.split(/([+\-*/])/);
-
-    if (partes.length < 3) {
+    if (!partes || partes.num1 === "" || partes.num2 === "") {
+        mostrar("Expressão incompleta");
         return;
     }
-
-    primeiroNumero = partes[0];
-    operacao = partes[1];
-    let segundoNumero = partes[2];
 
     fetch("http://127.0.0.1:5000/calcular", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            num1: primeiroNumero,
-            num2: segundoNumero,
-            operacao: operacao
-        })
+        body: JSON.stringify(partes)
     })
     .then(resposta => resposta.json())
     .then(dados => {
-        if (dados.erro) {
-            tela.value = dados.erro;
-        } else {
-            tela.value = dados.resultado;
-        }
+        mostrar(dados.erro ? dados.erro : String(dados.resultado));
     })
     .catch(() => {
-        tela.value = "Erro no servidor";
+        mostrar("Erro no servidor");
     });
 }
+
+document.addEventListener("keydown", evento => {
+    const tecla = evento.key;
+
+    if (/^[0-9.]$/.test(tecla) || OPERADORES.includes(tecla)) {
+        adicionar(tecla);
+    } else if (tecla === "Enter" || tecla === "=") {
+        evento.preventDefault();
+        calcular();
+    } else if (tecla === "Backspace") {
+        apagar();
+    } else if (tecla === "Escape") {
+        limpar();
+    }
+});
